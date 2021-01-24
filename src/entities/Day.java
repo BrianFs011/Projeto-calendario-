@@ -1,23 +1,35 @@
 package entities;
 
+import java.util.Arrays;
+
 public class Day {
 
-	//private static final SimpleDateFormat sdf = new SimpleDateFormat("dd");
-	
-	private String[][] date = new String [6][7];
-
-	public Day(Integer[][] date) {
-		int init = 0;
+	public Day(String[][] cal) {
+		System.out.print(" dom  seg  ter  qua  qui  sex  sab");
+		int row = 0;
 		for(int i=0; i<5; i++) {
 			System.out.println();
 			for(int j=0; j<7; j++) {
-				init += 1;
-				date[i][j] = init;
+				if(row < 31) {
+					row += 1;
+					cal[i][j] = Integer.toString(row);					
+				}
+				else {
+					String vazia = " -";
+					cal[i][j] = vazia;
+				}
+				if (row < 10) {
+					System.out.print("   " + cal[i][j] + (" "));					
+				}
+				else {
+					System.out.print("  " + cal[i][j] + (" "));
+				}
 			}
 		}
 	}
 	
-	public String[][] toString() {
-		return date;
+	public String toString() {
+		return " ";
 	}
 }
+
