@@ -1,7 +1,5 @@
 package entities;
 
-import java.util.Arrays;
-
 public class Day {
 
 	public Day(String[][] cal) {
