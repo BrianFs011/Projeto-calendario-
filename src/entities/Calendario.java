@@ -14,8 +14,6 @@ public class Calendario {
 	private Date inicDay = Date.from(Instant.parse("2021-01-01T04:00:00Z")); 
 	private Date inicSemana = Date.from(Instant.parse("2020-12-27T04:00:00Z")); 
 	
-	Month month;
-	
 	public Calendario(String[][] diasDoMes, String[][] diasDaSemana) {
 		//dias da semana
 		for(int i=0; i<diasDaSemana.length; i++) {
