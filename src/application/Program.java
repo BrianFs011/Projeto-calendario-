@@ -1,100 +1,73 @@
 package application;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import entities.Calendario;
 import entities.CalendarioException;
 
 public class Program {
 
-	@SuppressWarnings("deprecation")
 	public static void main(String[]args) throws ParseException {
-
+		
 		Scanner sc = new Scanner(System.in);
-
-		char close = 0;
-		while(close != 'n') {
+		
+		char resposta = 0;
+		boolean close = true;
+		while(close == true) {
 			try {
 				UI.clearScreen();
-				
-				SimpleDateFormat sdf2 = new SimpleDateFormat("dd"); 
-				
-				Date[][] teste = new Date[5509][7];
-				
-				Date d1 = Date.from(Instant.parse("1969-12-28T04:00:00Z"));
-				Calendar cal = Calendar.getInstance();		
-				
+				Date[][] calendar = new Date[5533][7];
+		
+				//Boas vindas
+				System.out.println("Calendario (1970-2075)");
+				//ano
 				System.out.print("Digite um ano: ");
-				int anoPrint = sc.nextInt();
+				int ano = sc.nextInt();
+				//exception ano
+				while(ano < 1970 || ano > 2075) {
+					System.out.print("Por favor digite um ano entre (1970-2075): ");
+					ano = sc.nextInt();
+				}
+				//mes
 				System.out.print("Digite um mes: ");
-				int mesPrint = sc.nextInt();
+				int mes = sc.nextInt();
+				//exception mes
+				while(mes < 1 || mes > 12) {
+					System.out.print("Por favor digite um mes entre (1-12): ");
+					mes = sc.nextInt();
+				}
+				UI.clearScreen();
 				
-				int mes = 0;
+				Calendario calendario = new Calendario(calendar, ano, mes);
+				System.out.println(calendario);
 				
-				cal.setTime(d1);
-				cal.add(Calendar.MONTH, mes);
-				d1 = cal.getTime();
+				System.out.print("Gostaria de uma nova data? (y/n) ");
+				resposta = sc.next().charAt(0);
 				
-				//matriz calendario
-				for(int i=0; i<teste.length; i++) {
-					for (int j=0; j<7; j++) {	
-						teste[i][j] = d1;
-						
-						//add 1 dia
-						cal.setTime(d1);
-						cal.add(Calendar.DAY_OF_MONTH, 1);
-						d1 = cal.getTime();
-					}
+				while(resposta != 'y' && resposta != 'n') {
+					System.out.print("Digite (y/n): ");	
+					resposta = sc.next().charAt(0);
 				}
 				
-				//busca
-				int subAnoPrint = anoPrint - 1900;
-				int linhaI = 0;
-				for(int i=0; i<teste.length; i++) {
-					for (int j=0; j<7; j++) {	
-						
-						if(teste[i][j].getMonth() +1 == mesPrint && teste[i][j].getYear() == subAnoPrint) {
-							linhaI = i;
-							j += 8;
-							i += 6000;
-						}
-
-					}
+				if(resposta == 'n') {
+					close = false;					
 				}
-				int linhaF = linhaI + 5;
-				
-				//print
-				System.out.println();
-				System.out.println("---------------------------");
-				System.out.print  ("dom seg ter qua qui sex sab");
-				
-				for(int i=linhaI; i<=linhaF; i++) {
-					System.out.println();
-					for (int j=0; j<7; j++) {
-
-						//imprimi
-						if(teste[i][j].getMonth() + 1== mesPrint) {
-							System.out.print(" "+ sdf2.format(teste[i][j])+" ");														
-						}
-						else {
-							System.out.print("    ");
-						}
-					}
+				else if (resposta == 'y') {
+					close = true;
 				}
-
-				System.out.println();
-				System.out.print("Gostaria de um novo mes? ");
-				close = sc.next().charAt(0);
-				UI.clearScreen();			
+				
+				UI.clearScreen();
 			}
-
 			catch(CalendarioException e) {
 				System.out.println("!Fogo no parquinho!");
 			}
+			catch(InputMismatchException e) {
+				System.out.println("Digite numeros inteiros: ");
+			}
+			
 		}
 		sc.close();
 	}
